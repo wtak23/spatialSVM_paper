@@ -39,10 +39,10 @@ For visualization, the estimated weight vectors are reshaped into $66\times 66$ 
 	\renewcommand{\imwidth} {0.23\linewidth}
 	\setlength{\tabcolsep}{4.25pt} 
 	\begin{tabular}{cccc}
-		\includegraphics[width=\imwidth]{sim_best_weight_lass100.pdf} &
-		\includegraphics[width=\imwidth]{sim_best_weight_enet100.pdf} &
-		\includegraphics[width=\imwidth]{sim_best_weight_gnet100.pdf} &
-		\includegraphics[width=\imwidth]{sim_best_weight_flas100.pdf} \vspace{-3pt}\\
+		\includegraphics[width=\imwidth]{\fig/sim_best_weight_lass100.pdf} &
+		\includegraphics[width=\imwidth]{\fig/sim_best_weight_enet100.pdf} &
+		\includegraphics[width=\imwidth]{\fig/sim_best_weight_gnet100.pdf} &
+		\includegraphics[width=\imwidth]{\fig/sim_best_weight_flas100.pdf} \vspace{-3pt}\\
 		\small{(a) Lasso} & \small{(b) Elastic-net} & \small{(c) GraphNet} & \small{(d) Fused Lasso} \\
 		\footnotesize{(classif. accuracy = $77.0\%$)} &
 		\footnotesize{(classif. accuracy = $77.0\%$)} &
@@ -52,7 +52,7 @@ For visualization, the estimated weight vectors are reshaped into $66\times 66$ 
 	\renewcommand{\imwidth} {0.4\linewidth}	
 	\begin{subfigure}[b]{\imwidth}\setcounter{subfigure}{4}
 		\centering
-		\includegraphics[height=95pt]{sim_best_weight_truth.pdf}
+		\includegraphics[height=95pt]{\fig/sim_best_weight_truth.pdf}
 		\vspace{-4pt}\\
 		\caption{Support of the \emph{anomalous edges}}
 		\label{subfig:sim,edge,truth}
@@ -60,7 +60,7 @@ For visualization, the estimated weight vectors are reshaped into $66\times 66$ 
 	\hspace{10pt}
 	\begin{subfigure}[b]{\imwidth}
 		\centering
-		\includegraphics[height=95pt]{sim_best_weight_roc100.pdf}
+		\includegraphics[height=95pt]{\fig/sim_best_weight_roc100.pdf}
 		\vspace{-4pt}\\
 		\caption{ROC (edge identification accuracy)}
 		\label{subfig:sim,roc}
@@ -84,19 +84,19 @@ For visualization, the estimated weight vectors are reshaped into $66\times 66$ 
 	\setlength{\tabcolsep}{1pt} 
 	\begin{tabular}{ccccc}
 	\multicolumn{4}{c}{{\textbf{\normalsize{Classification accuracy}}}} \vspace{0pt} \\
-	\includegraphics[height=\imheight,width=\imwidth]{sim_gridsearch_lass_acc100.pdf} &
-	\includegraphics[height=\imheight,width=\imwidth]{sim_gridsearch_enet_acc100.pdf} &
-	\includegraphics[height=\imheight,width=\imwidth]{sim_gridsearch_gnet_acc100.pdf} &
-	\includegraphics[height=\imheight,width=\imwidth]{sim_gridsearch_flas_acc100.pdf} &
-	\raisebox{0.02585\linewidth}{\includegraphics[height=0.2035\linewidth]{sim_gridsearch_crangeACC100.pdf}} 
+	\includegraphics[height=\imheight,width=\imwidth]{\fig/sim_gridsearch_lass_acc100.pdf} &
+	\includegraphics[height=\imheight,width=\imwidth]{\fig/sim_gridsearch_enet_acc100.pdf} &
+	\includegraphics[height=\imheight,width=\imwidth]{\fig/sim_gridsearch_gnet_acc100.pdf} &
+	\includegraphics[height=\imheight,width=\imwidth]{\fig/sim_gridsearch_flas_acc100.pdf} &
+	\raisebox{0.02585\linewidth}{\includegraphics[height=0.2035\linewidth]{\fig/sim_gridsearch_crangeACC100.pdf}} 
 	\vspace{1pt}\\
 	%%
 	\multicolumn{4}{c}{{\textbf{\normalsize{Sparsity level (number of features)}}}} \vspace{0pt}\\
-	\includegraphics[height=\imheight,width=\imwidth]{sim_gridsearch_lass_nnz100.pdf} &
-	\includegraphics[height=\imheight,width=\imwidth]{sim_gridsearch_enet_nnz100.pdf} &
-	\includegraphics[height=\imheight,width=\imwidth]{sim_gridsearch_gnet_nnz100.pdf} &
-	\includegraphics[height=\imheight,width=\imwidth]{sim_gridsearch_flas_nnz100.pdf} &
-	\hspace{0pt}\raisebox{0.021423\linewidth}{\includegraphics[height=0.213\linewidth]{sim_gridsearch_crangeNNZ100.pdf}} \\
+	\includegraphics[height=\imheight,width=\imwidth]{\fig/sim_gridsearch_lass_nnz100.pdf} &
+	\includegraphics[height=\imheight,width=\imwidth]{\fig/sim_gridsearch_enet_nnz100.pdf} &
+	\includegraphics[height=\imheight,width=\imwidth]{\fig/sim_gridsearch_gnet_nnz100.pdf} &
+	\includegraphics[height=\imheight,width=\imwidth]{\fig/sim_gridsearch_flas_nnz100.pdf} &
+	\hspace{0pt}\raisebox{0.021423\linewidth}{\includegraphics[height=0.213\linewidth]{\fig/sim_gridsearch_crangeNNZ100.pdf}} \\
 	\end{tabular}
 	\vspace{-10pt}\\
 	\caption{Grid search result for the simulation experiment (best viewed in color).
@@ -135,7 +135,7 @@ The result of the grid search is presented in Fig.~\ref{fig:sim,grid,ntr}, where
 %======= figure of classification result in simulation =====%
 	\centering
 	\renewcommand{\imwidth}  {0.35\linewidth}
-	\includegraphics[width=\imwidth]{sim_samp_complexity.pdf} 
+	\includegraphics[width=\imwidth]{\fig/sim_samp_complexity.pdf} 
 	\captionof{figure}{
 		The testing classification accuracy of the different regularizers as a function as a number of training samples~$n$ in the simulation experiment.  
 		Regularization parameters were tuned via $5$-fold cross-validation on the training set.  
@@ -209,15 +209,15 @@ Although this behavior may be somewhat surprising, it has been reported that in 
 	\renewcommand{\imheight}  {0.3105\linewidth}	
 	\begin{tabular}{cccc}	
 	\multicolumn{4}{c}{{\textbf{\large{Classification accuracy}}}} \vspace{0pt} \\
-	\includegraphics[width=\imwidth,height=\imheight]{exp_gridsearch_acc_enet.pdf} &
-	\includegraphics[width=\imwidth,height=\imheight]{exp_gridsearch_acc_gnet.pdf} &
-	\includegraphics[width=\imwidth,height=\imheight]{exp_gridsearch_acc_flas.pdf} &
-	\raisebox{0.02725\linewidth}{\includegraphics[height=0.268\linewidth]{exp_gridsearch_acc_cbar.pdf}} \vspace{9pt}\\
+	\includegraphics[width=\imwidth,height=\imheight]{\fig/exp_gridsearch_acc_enet.pdf} &
+	\includegraphics[width=\imwidth,height=\imheight]{\fig/exp_gridsearch_acc_gnet.pdf} &
+	\includegraphics[width=\imwidth,height=\imheight]{\fig/exp_gridsearch_acc_flas.pdf} &
+	\raisebox{0.02725\linewidth}{\includegraphics[height=0.268\linewidth]{\fig/exp_gridsearch_acc_cbar.pdf}} \vspace{9pt}\\
 	\multicolumn{4}{c}{{\textbf{\large{Mean sparsity level (number of features)}}}} \vspace{0pt}\\
-	\includegraphics[width=\imwidth,height=\imheight]{exp_gridsearch_nnz_log10_enet.pdf} &
-	\includegraphics[width=\imwidth,height=\imheight]{exp_gridsearch_nnz_log10_gnet.pdf} &
-	\includegraphics[width=\imwidth,height=\imheight]{exp_gridsearch_nnz_log10_flas.pdf} &
-	\hspace{-4pt}\raisebox{0.03225\linewidth}{\includegraphics[height=0.26\linewidth]{exp_gridsearch_nnz_cbar_log10.pdf}}\\
+	\includegraphics[width=\imwidth,height=\imheight]{\fig/exp_gridsearch_nnz_log10_enet.pdf} &
+	\includegraphics[width=\imwidth,height=\imheight]{\fig/exp_gridsearch_nnz_log10_gnet.pdf} &
+	\includegraphics[width=\imwidth,height=\imheight]{\fig/exp_gridsearch_nnz_log10_flas.pdf} &
+	\hspace{-4pt}\raisebox{0.03225\linewidth}{\includegraphics[height=0.26\linewidth]{\fig/exp_gridsearch_nnz_cbar_log10.pdf}}\\
 %-------------------------------------------------------------------------------------------%
 	\addhspace{{(a) Elastic-net}} & \addhspace{{(b) GraphNet}} & \addhspace{{(c) Fused Lasso}} & \vspace{-4pt}	\\
 	\end{tabular} 
@@ -257,15 +257,15 @@ The resulting matrices are displayed in Fig.~\ref{fig:exp,median}.
 	\setlength{\tabcolsep}{1pt} 
 	\begin{tabular}{cccc}
 	\multicolumn{4}{c}{{\textbf{\large{Median Weight Vector}}}} \vspace{0pt} \\
-	\includegraphics[width=\imwidth]{exp_median_wmat_enet.pdf} &
-	\includegraphics[width=\imwidth]{exp_median_wmat_gnet.pdf} &
-	\includegraphics[width=\imwidth]{exp_median_wmat_flas.pdf} &
-	\raisebox{0.02225\linewidth}{\includegraphics[height=0.27675\linewidth]{exp_median_wmat_cbar.pdf}} \vspace{4pt}\\
+	\includegraphics[width=\imwidth]{\fig/exp_median_wmat_enet.pdf} &
+	\includegraphics[width=\imwidth]{\fig/exp_median_wmat_gnet.pdf} &
+	\includegraphics[width=\imwidth]{\fig/exp_median_wmat_flas.pdf} &
+	\raisebox{0.02225\linewidth}{\includegraphics[height=0.27675\linewidth]{\fig/exp_median_wmat_cbar.pdf}} \vspace{4pt}\\
 	\multicolumn{4}{c}{{\textbf{\large{Median Weight Vector Support}}}} \vspace{0pt} \\
-	\includegraphics[width=\imwidth]{exp_median_supp_enet.pdf} &
-	\includegraphics[width=\imwidth]{exp_median_supp_gnet.pdf} &
-	\includegraphics[width=\imwidth]{exp_median_supp_flas.pdf} &
-	\hspace{-2pt}\raisebox{0.0215\linewidth}{\includegraphics[height=0.2755\linewidth]{exp_median_supp_cbar.pdf}} \vspace{-2pt} \\
+	\includegraphics[width=\imwidth]{\fig/exp_median_supp_enet.pdf} &
+	\includegraphics[width=\imwidth]{\fig/exp_median_supp_gnet.pdf} &
+	\includegraphics[width=\imwidth]{\fig/exp_median_supp_flas.pdf} &
+	\hspace{-2pt}\raisebox{0.0215\linewidth}{\includegraphics[height=0.2755\linewidth]{\fig/exp_median_supp_cbar.pdf}} \vspace{-2pt} \\
 \addhspace{{(a) Elastic-net}} & \addhspace{{(b) GraphNet}} & \addhspace{{(c) Fused Lasso}} & \vspace{-5pt}	\\
 	\end{tabular} 
 	\captionof{figure}{
@@ -318,22 +318,22 @@ This finding is consistent with previous studies of schizophrenia that emphasize
 	\setlength{\tabcolsep}{8pt}
 	\myfbox{\begin{tabular}{cc}
 		\vspace{-8pt}\\
-		\includegraphics[width=0.225\textwidth]{YeoKey.png} & \hspace{10pt}
-		\raisebox{7pt}{\includegraphics[width=0.4\textwidth]{schiz_edge_legend.png}}  \vspace{0pt}\\
+		\includegraphics[width=0.225\textwidth]{\fig/YeoKey.png} & \hspace{10pt}
+		\raisebox{7pt}{\includegraphics[width=0.4\textwidth]{\fig/schiz_edge_legend.png}}  \vspace{0pt}\\
 		\textbf{(node color)} & \textbf{(edge color)} \vspace{-2pt} \\ 
 	\end{tabular}}\vspace{11pt} \\
 	\begin{tabular}{ccc}
-		\includegraphics[height=\imheight]{6-6_anterior_flas.jpg}  &
-		\includegraphics[height=\imheight]{6-6_lateral_flas.jpg}  &
-		\includegraphics[height=\imheight]{6-6_superior_flas.jpg} \VSPACEE\\
+		\includegraphics[height=\imheight]{\fig/6-6_anterior_flas.jpg}  &
+		\includegraphics[height=\imheight]{\fig/6-6_lateral_flas.jpg}  &
+		\includegraphics[height=\imheight]{\fig/6-6_superior_flas.jpg} \VSPACEE\\
 		\multicolumn{3}{c}{\textbf{\large{Intra-Frontoparietal (6-6)}}} \VSPACE \\
-		\includegraphics[height=\imheight]{6-7_anterior_flas.jpg}  &
-		\includegraphics[height=\imheight]{6-7_lateral_flas.jpg}  &
-		\includegraphics[height=\imheight]{6-7_superior_flas.jpg} \VSPACEE\\
+		\includegraphics[height=\imheight]{\fig/6-7_anterior_flas.jpg}  &
+		\includegraphics[height=\imheight]{\fig/6-7_lateral_flas.jpg}  &
+		\includegraphics[height=\imheight]{\fig/6-7_superior_flas.jpg} \VSPACEE\\
 		\multicolumn{3}{c}{\textbf{\large{Frontoparietal-Default (6-7)}}} \VSPACE \\
-		\includegraphics[height=\imheight]{12-12_anterior_flas.jpg}  &
-		\includegraphics[height=\imheight]{12-12_lateral_flas.jpg}  &
-		\includegraphics[height=\imheight]{12-12_superior_flas.jpg} \VSPACEE\\
+		\includegraphics[height=\imheight]{\fig/12-12_anterior_flas.jpg}  &
+		\includegraphics[height=\imheight]{\fig/12-12_lateral_flas.jpg}  &
+		\includegraphics[height=\imheight]{\fig/12-12_superior_flas.jpg} \VSPACEE\\
 		\multicolumn{3}{c}{\textbf{\large{Intra-Cerebellum (12-12)}}}  \\
 	\end{tabular}
 	\caption{

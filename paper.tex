@@ -4,10 +4,19 @@
 
 \allowdisplaybreaks
 
-\journal{Neuroimage}
+\makeatletter
+\def\ps@pprintTitle{%
+  \let\@oddhead\@empty
+  \let\@evenhead\@empty
+  \let\@oddfoot\@empty
+  \let\@evenfoot\@oddfoot
+}
+\makeatother
 
 % the default emph for this style is underline...change it to italics
 \DeclareTextFontCommand{\emph}{\itshape}
+
+\newcommand{\fig}{./figures}
 \begin{document}
 	%==========================================%
 	% front matter
