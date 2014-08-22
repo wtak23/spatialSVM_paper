@@ -1,0 +1,40 @@
+%!TEX root = paper.tex
+%*****************************************************************************%
+%		 			Material and Methods
+%*****************************************************************************%
+%%===================================================================%
+%% Functional connectome generation detail
+%%===================================================================%
+\subsection{Defining Functional Connectomes}\label{subsec:FC,def}
+\input{s,methods,conn}
+
+%===================================================================%
+% Statistical learning in high dimension
+% * Supervised learning problem and margin based loss
+% * Penalized empirical risk minimization and feature selection
+% * Feature selection with spatial information
+%===================================================================%
+\input{s,methods,stats}
+
+%===================================================================%
+% Optimization method
+% - primer on admm
+% - variable splitting setup
+% - closed form admm updates
+%===================================================================%
+\subsection{Optimization}\label{subsec:optim}
+\input{s,methods,opt}
+
+%===================================================================%
+% Simulation experiment setup
+%===================================================================%
+\subsection{Generation of synthetic data: $4$-D functional connectomes}
+\label{subsec:synthetic,4d,conn}
+\input{s,methods,simu}
+
+%===================================================================%
+% Real-data  experiment setup
+%===================================================================%
+\subsection{Real experimental data: schizophrenia resting state dataset}
+\label{subsec:real,data}
+\input{s,methods,exp}

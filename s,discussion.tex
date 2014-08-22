@@ -1,0 +1,117 @@
+%!TEX root = paper.tex
+%*****************************************************************************%
+%		 			Discussion
+%*****************************************************************************%
+Abundant neurophysiological evidence indicates that major psychiatric disorders are associated with distributed neural dysconnectivity \citep{Stephan:2006,Konrad:2010,Muller:2011}.
+Thus, there is strong interest in using neuroimaging methods to establish connectivity-based biomarkers that accurately predict disorder status \citep{Kloppel:2012,Sundermann:2013,Cohen:2011}.
+Multivariate methods that use whole-brain functional connectomes are particularly promising since they comprehensively look at the network structure of the entire brain \citep{Castellanos:2013,Fornito:2012}, but the massive size of connectomes requires some form of dimensionality reduction. 
+
+In this work, we developed and deployed a multivariate approach based on the SVM~\citep{Cortes:1995} and regularization methods that leverage the 6-D spatial structure of the functional connectome, namely the fused Lasso \citep{Tibshirani:2005} and the GraphNet regularizer \citep{Grosenick:2013}.
+In addition, we introduced a novel and scalable algorithm based on the classical alternating direction method \citep{Boyd:2011,Gabay:1976,Glowinski:1975} for solving the nonsmooth, large-scale optimization problem that results from the structured sparse SVM.
+Note that most existing multivariate methods in the literature rely on some form of \apriori feature selection or feature extraction (\eg, principal component analysis, locally linear embedding) before invoking some \mbox{``off the shelf''} classifier (\eg, nearest-neighbor, SVM, linear discriminant analysis) \citep{Castellanos:2013}.
+In contrast, our feature selection method is not only spatially informed, but is also \emph{embedded} \citep{Guyon:2003}, meaning that feature selection is conducted together with model fitting.
+This type of joint feature selection and classification has been rarely applied in the disease prediction framework with functional connectomes.
+
+We used a grid-based parcellation scheme for producing whole-brain resting state functional connectomes (see Section~\ref{subsec:FC,def}), and this has two advantages.
+First, it endows a natural ordering and a notion of nearest neighbors among the coordinates of functional connectomes, which is important when defining the neighborhood set for fused Lasso and GraphNet (one may consider predefining an arbitrary graph structured neighborhood set, but we prefer an approach that enforces little \apriori assumption on the structure of the predictive regions).
+Second, the finite differencing matrix corresponding to this (augmented) functional connectome has a special structure that allows efficient FFT-based matrix inversion to be applied (this structure is absent when a functional or an anatomical based parcellation scheme is adopted).  When this property is used in tandem with variable splitting, the inner subproblems associated with the proposed ADMM algorithm admit closed form solutions that can be carried out efficiently and non-iteratively.
+
+Using a simulation method and a large real-world schizophrenia dataset, we demonstrate that the proposed spatially-informed regularization methods can achieve accurate disease prediction with superior interpretability of discriminative features.
+To the best of our knowledge, this is the first application of structured sparse methods in the context of disease prediction using functional connectomes.
+
+%===================================================================%
+% Why Spatial Regularization
+%===================================================================%
+\subsection{Rationale behind spatial regularization}
+\label{subsec:why,flasso}
+The rationale for using the fused Lasso and GraphNet regularizer can be better appreciated by considering the ``patchiness assumption'' -- the view that major psychiatric diseases manifest in the brain by impacting moderately-sized (\eg, $1,000$ mm$^3$ to $30,000$ mm$^3$) spatially contiguous neural regions. 
+This assumption has been repeatedly born out across different imaging modalities.
+In structural studies and task-based activation studies, theorists have consistently identified mid-sized blobs in maps of differences between patients and controls \citep{Dickstein:2006, Glahn:2005, Wright:2000}.
+In studies of functional connectivity, the patchiness assumption has found clear support. 
+The vast majority of previous connectivity studies are seed-based; they create maps of connectivity with a single or a handful of discrete seeds, and compare these maps between patients and controls. 
+These studies nearly always report connectivity between patients and controls is altered at one or more discrete medium-sized blobs, similar to structural studies and activation-based studies \citep{Heuvelemail:2010, Konrad:2010,Etkin:2007}.
+
+In addition to actual findings from previous connectivity studies, the patchiness assumption is justified by careful examination of the hypotheses proposed by theorists. 
+It is exceedingly common for theorists to state their hypotheses in terms of altered connectivity between two discrete regions or discrete sets of regions. 
+For example, based on hypofrontality models of auditory hallucinations in schizophrenia, Lawrie and colleagues \mbox{\citep{Lawrie:2002}} predicted that individuals with schizophrenia would exhibit decreased connectivity between dorsal lateral prefrontal cortex (DLPFC; Brodman's areas 9 and 10), involved in top-down control, and superior temporal gyrus (STG), which is involved in auditory processing. 
+Both DLPFC and STG are large structures, and they encompass roughly a dozen nodes each in our grid-based parcellation. 
+If Lawrie and colleagues' conjecture is correct, then we should observe alterations in connectivity between the large set of connections that link the nodes that fall within the respective brain structures. 
+Moreover, Lawrie and colleagues' hypothesis implies that the predicted changes will be relatively discrete and localized to connections linking these two regions. 
+For example, the finding of salt and pepper changes throughout the connectome would of course not support their conjecture. 
+Moreover, their hypothesis predicts that even regions that are relatively close to dorsal lateral prefrontal cortex, for example precentral gyrus, involved in motor processing, do not change their connectivity with STG -- the connectivity changes they predict are relatively localized and discrete.
+
+In addition to hypotheses about region-to-region abnormalities, the patchiness assumption is also evident in recent network models of mental disorders. 
+In recent years, theorists have recognized that the human brain is organized into large-scale networks that operate as cohesive functional units \mbox{\citep{Bressler:2010,Laird:2011,Yeo:2011}}. 
+Each individual network is composed of a set of discrete regions, and each region itself encompasses multiple nodes given a standard, suitably dense parcellation scheme (such as our grid-based scheme).
+Concurrent with the rise of this network understanding of neural organization, theorists have proposed models in which psychiatric disorders are seen to involve perturbations in the interrelationships between individual pairs of network, where the remainder of the network interrelationships remain essentially unaffected \mbox{\citep{Menon:2011,Lynall:2010,Tu:2013}}. 
+If these network models of disease are correct, then using functional connectivity methods, we should discover that in a psychiatric disease that is proposed to affect the interrelationship between network A and network B, the set of regions that make up network A change their relationship with the set of regions in network B. 
+The regions that abut the regions in networks A and B are, by hypothesis, not proposed to alter their connectivity. 
+In connectomic space, this pattern would be represented as patchy changes in the sets of connections linking the blobs of contiguous nodes that represent networks A and B, with the remainder of the connectome remaining largely unaffected. 
+
+In sum, actual results from structural, task-based, and connectivity studies suggest the patchiness assumption is reasonable, while close examination of the form of the hypotheses routinely made by psychiatric researchers suggests the assumption underlies theorists' conjectures about disease processes. 
+If these claims are correct, then this provides a powerful rationale for both the fused Lasso and GraphNet penalty. 
+Fused Lasso penalizes abrupt discontinuities, favoring the detection of piecewise constant patches in noisy contexts. 
+Similarly, GraphNet also promotes spatial contiguity, but encourages the clusters to appear in smoother form.
+Given that there is a solid basis for expecting that the disease discriminative patterns in functional connectomes will consist of spatially contiguous patches, rather than consisting of salt-and-pepper patterns randomly dispersed throughout the brain, then fused Lasso and GraphNet are well very positioned to uncover these patchy discriminative signatures. 
+In addition, the spatial coherence promoted by these spatially-informed regularizers helps decrease model complexity and facilitates interpretation.
+
+%===================================================================%
+%		 			Simulation discussion
+%===================================================================%
+\subsection{Simulation study and interpretability of results}
+The analytic intuitions discussed above were confirmed in our simulation study.
+Here, we imposed ``patchiness'' in the ground truth by introducing clusters of \emph{anomalous nodes} in the synthetic functional connectomes that represent the patient group (see Section~\ref{subsec:synthetic,4d,conn}).
+For comparison, we learned SVM classifiers from the training data using the hinge-loss and one of the following regularizers: Lasso, Elastic-net, GraphNet, and fused Lasso.
+Our results indicate that fused Lasso and GraphNet not only improved classification accuracy, but also exhibited superior performance in recovering the discriminatory edges with respect to their non-spatially informed counterparts, Lasso and Elastic-net.
+
+%===================================================================%
+%	Application to Schiz_COBRE - neurological interpretation
+%===================================================================%
+\subsection{Application: classifying healthy controls vs. schizophrenic subjects}
+\label{subsec:disc,real,data}
+Our results indicate that at similar sparsity level, the classification accuracy with Elastic-net, GraphNet, and fused Lasso are comparable.
+However, studying the structure of the learned weight vectors reveals the key advantage of GraphNet and fused Lasso: they facilitate interpretation by promoting sparsity patterns that are spatially contiguous in the connectome space.
+Fused Lasso recovers highly systematic sparsity patterns with multiple spatially contiguous clusters, including nodes with diffuse connectivity profiles, which is one manifestation of the ``patchiness assumption'' discussed earlier.
+On the other hand, the smooth sparsity structure that GraphNet recovers is biologically more sensible than the salt-and-pepper like structure yielded by the Elastic-net.
+These decreases in model complexity come without sacrificing prediction accuracy, which fits well with the principle of \emph{Occam's razor} -- given multiple equally predictive models, the simplest choice should be selected.
+
+Finally, additional evidence that fused Lasso recovered more interpretable discriminative features for the schizophrenia dataset comes from comparing visualizations of the respective weight vectors from the three regularizers (see Fig.~\ref{fig:exp,median}). 
+The map of the fused Lasso support shows more prominent and clearly localized alterations in connectivity involving frontoparietal network, default network, and cerebellum, among other regions. These networks also exhibited increased node degree, indicating diffuse connectivity alterations with other networks. 
+Interestingly, these networks are among the most commonly implicated in schizophrenia.
+Frontoparietal network, which has multiple important hubs in prefrontal cortex, is involved in executive processing and cognitive control \citep{Cole:2013}, and has been shown to exhibit abnormal activation (see \cite{Minzenberg:2009} for a quantitative meta-analysis) and connectivity (\cite{Repovs:2011}; \cite{Tu:2013}; see \cite{Fornito:2012} for a review) in schizophrenia. 
+Fused Lasso also recovered altered connectivity between frontoparietal network and default mode network, an important brain network involved in autobiographical memory and internally generated mental simulations \citep{Buckner:2008, Raichle:2001}. 
+The weight vectors shown in Fig.~\ref{fig:exp,median} and the $3$-D brains shown in Fig.~\ref{fig:bnv,median} evidence a substantial number of aberrant connections between frontoparietal network and default network, with a predominance of reduced connectivity in schizophrenia. 
+Frontoparietal network and default network become more interconnected throughout childhood and adolescence \citep{Fair:2007,Anderson:2011}, which might reflect development of top-down cognitive control by frontoparietal regions over default network. 
+Reduced connectivity between these two networks is among the most commonly observed findings in connectivity research in schizophrenia \citep{Jafri:2008, Repovs:2011, Woodward:2011, Zhou:2007a, Zhou:2007b}, and has been proposed to reflect disruptions and/or delays in normal trajectories of maturation \citep{Repovs:2011}.
+It is also noteworthy that a sizable portion of the aberrant connection within frontoparietal cortex and between frontoparietal network and default network involved dorsal lateral prefrontal cortex (see results in Sec.~\ref{subsec:result,real,data}). 
+This region is perhaps the most frequently described as being abnormal in schizophrenia \citep{Bunney:2000, Callicott:2000, Zhou:2007a}. 
+A third network highlighted by fused Lasso is cerebellum, which is featured in the influential `cognitive dysmetria' hypothesis of schizophrenia \citep{Andreasen:1998}. 
+Abnormalities in cerebellum have been found in post-mortem \citep{Weinberger:1980}, structural \citep{Wassink:1999}, and functional connectivity studies \citep{Mamah:2013}. 
+
+Fused Lasso also tended to generate more sparsity in regions of the connectome that are not associated with schizophrenia pathology. 
+For example, connectivity abnormalities in somatomotor network, and in particular its interconnections with attention network and frontoparietal network, have as far as we know not been described in previous schizophrenia connectivity studies. 
+The same is true of the nodes that fell outside the Yeo parcellation augmented with subcortical regions and cerebellum. 
+These too have not been associated with schizophrenia pathology and tended to be sparser with fused Lasso. 
+Overall, fused Lasso appeared to identify regions known from prior research to be involved in schizophrenia and appeared to generate more sparsity outside of these regions, providing some corroboration for the interpretability of fused Lasso findings.
+
+%===================================================================%
+%		 			Future Work
+%===================================================================%
+\subsection{Future Directions}
+While the spatially-informed disease prediction framework we introduced is capable of yielding predictive and highly interpretable results, there are several open questions that remain for future investigation.
+For example, with little modification, the variable splitting and the data augmentation procedure we introduced should be applicable to the isotropic TV penalty, which also promotes spatial contiguity \citep{Wang:2008tv}.
+This is important because on one hand, fused Lasso lacks the rotational invariance property of the isotropic TV penalty, whereas on the other hand, isotropic TV penalty is known to introduce artifacts at corner structured regions~\citep{Birkholz:2011,Grasmair:2010}.
+Therefore, fused Lasso and isotropic TV penalty can both potentially be problematic for connectomic investigations, and a thorough comparison between these two penalties with our functional connectome data would be an important direction for future investigation.
+In addition, there are multiple works that have introduced a framework for achieving structured sparsity by coupling the isotropic TV penalty with the differentiable logistic loss function \citep{Gramfort:2013, Baldassarre:2012,Michel:2011}.
+Although our method has the advantage that it can handle non-differentiable loss functions and hence the SVM, the algorithm employed in the above works enjoy a faster rate of convergence than the ADMM algorithm we employ \citep{He:2012,Beck:2009}.
+Investigating ways to accelerate our proposed ADMM algorithm will be important for future work  \citep{Deng:2012, Goldstein:2012}.
+
+There are several other interesting extensions that remain for future research as well.
+First, functional and anatomical parcellations (which lack a grid structure and hence the BCCB structure) are often used in connectomic investigations.  
+Future work should extend our methodology so the ADMM subproblems can be solved efficiently in analytic form even when a irregularly structured parcellation scheme is used (although the ADMM algorithm proposed by \cite{Gui-Bo-Ye:2011} is applicable in this setup, their approach requires an iterative update to be used to numerically solve one of the ADMM subproblems).
+Furthermore, with the emergence of various data sharing projects in the neuroimaging community such as Autism Brain Imaging Data Exchange (ABIDE) \citep{Martino:2013}, ADHD-$200$ \citep{ADHD200}, $1000$ Functional Connectomes Project, and the International Neuroimaging Data-sharing Initiative (INDI) \citep{Mennes:2012}, there is a need for a principled framework to handle the heterogeneity introduced by aggregating the data from multiple imaging centers.
+Toward this end, we are seeking ways to combine the currently presented spatial regularization scheme and multi-task learning \citep{Caruana:1997}, where the tasks correspond to the imaging centers from which the resting state scans originate.
+One particular approach we have in mind for this is to replace the \ellone-regularizer in the objective function~\eqref{eqn:costfx} with the $\ellone/\elltwo$ mixed-norm regularizer \citep{Lounici:2009, Gramfort:2012}, which encourages the weight vectors across the different tasks to share similar sparsity patterns (a structure often referred to as block-sparsity).
+Our proposed ADMM algorithm can easily be modified to handle this change, as this simply amounts to replacing the scalar soft-threshold operator for the \vb update~\eqref{eqn:v2,update2} with the vector soft-threshold operator (see \cite{Gramfort:2012}).
+Finally, a more sophisticated approach for parameter tuning is needed, ideally a model selection strategy that provides statistical guarantees \citep{Cawley:2010}. 
+Resampling-based approaches  \citep{Bach:2008c,Varoquaux:2012} such as stability selection \citep{Meinshausen:2010} may be considered, albeit these methods can be computationally demanding in high dimension. 

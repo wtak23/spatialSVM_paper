@@ -1,0 +1,93 @@
+%!TEX root = paper.tex
+%===================================================================%
+% Synthetic data info
+%===================================================================%
+\newcommand{\calI}{\xmath{\mathcal{I}}}
+\newcommand{\calK}{\xmath{\mathcal{K}}}
+\newcommand{\calC}{\xmath{\mathcal{C}}}
+\newcommand{\calE}{\xmath{\mathcal{E}}}
+\newcommand{\calN}{\xmath{\mathcal{N}}}
+To assess the validity of our method, we ran experiments on synthetic $4$-D functional connectome data.
+The data were generated to imitate functional connectomes resulting from a single slice of our grid-based parcellation scheme (see Fig.~\ref{fig:roi,grid,slice}).
+Specifically, we selected only the nodes that are present at axial slice $z=18$ in the MNI space; this slice was selected for its substantial $X$ and $Y$ coverage.
+Fig.~\ref{subfig:sim,conn,struct,hc} provides a schematic representation of the selected nodes.
+
+\newcommand{\muhat}{\xmath{\hat{\mu}}}
+\newcommand{\mutil}{\xmath{\widetilde{\mu}}}
+\newcommand{\sighat}{\xmath{\hat{\sigma}}}
+\newcommand{\arctanh}{\text{arctanh}}
+To mimic the \emph{control vs. patient} binary classification setup, we created two classes of functional connectomes sampled from random normal distributions. 
+The mean and the variance for these distributions were assigned using the functional connectomes generated from the real resting state dataset described later in Sec.~\ref{subsec:real,data}.
+Specifically, we first took the subject-level functional connectomes corresponding to the $67$ healthy controls in the dataset, and extracted the entries that represent the edges among the nodes at slice $z=18$.
+Since there are $66$ nodes within this slice, this gives us $\binom{66}{2}=2145$ edges for each subjects.
+Next, we applied Fisher transformation on these edges to map the correlation values to the real line.
+For each of these transformed edges, we calculated the inter-subject sample mean and sample variance, which we denote by $\{\muhat(k),\sighat^2(k)\}$ with $k\in[2145]$ indexing the edges.
+Finally, a synthetic subject-level ``control class'' connectome is realized by sampling edges individually from a set of random normal distributions having the above mean and variance, and then applying inverse Fisher transformation $\tanh:\reals\to (-1,+1)$ on these sampled edges, \ie,
+\[
+	\x=\left[
+		\tanh\big(x^{(1)}\big),
+		\dots,
+		\tanh\big(x^{(2145)}\big)
+	\right]^T
+	\text{ where } x^{(k)}\sim\calN\left(\muhat(k),\sighat^2(k)\right),\; k\in[2145].
+\]
+Realizations of the ``patient class'' connectomes are generated in a similar manner, but here we introduced two clusters of \emph{anomalous nodes}, indicated by the red nodes in Fig.~\ref{subfig:sim,conn,struct,ds}.
+These clusters participate in a disease-specific perturbation, where signal was added to all connections originating in one cluster and terminating in the other.
+More formally, let $\calK\subset[2145]$ denote the index set corresponding to these disease-specific \emph{anomalous edges}, which consist of a complete bipartite graph formed by the anomalous node clusters $\calC_1=\{8,14,15,16,23\}$ and $\calC_2=\{41,48,49,50,56\}$, $\calC_1,\calC_2\subset[66]$.
+Under these notations, a synthetic subject-level ``patient class'' connectome is realized by the following procedure:
+\[
+	\x=\left[
+		\tanh\big(x^{(1)}\big),
+		\dots,
+		\tanh\big(x^{(2145)}\big)
+	\right]^T 
+	\text{where } 
+	\begin{cases}
+		x^{(k)}\sim\calN\Big(\muhat(k),\sighat^2(k)\Big) &\text{ if } k\notin\calK \vspace{3pt}\\
+		x^{(k)}\sim\calN\Big(\muhat(k)+d\cdot\sighat(k),\;\sighat^2(k)\Big) &\text{ if } k\in\calK\;.
+	\end{cases}
+\]
+In other words, if an edge $k$ is a member of the anomalous edge set \calK, a non-random signal $d\cdot\sighat(k)$ is added to the sampled edge-value.
+Here, $d$ denotes Cohen's effect size \citep{Cohen:1988}, which we set at $d=0.6$ for our experiments.
+Overall, since $\abs{\calC_1}=\abs{\calC_2}=5$, we have $\abs{\calK}=\abs{\calC_1}\cdot\abs{\calC_2}=25$, \ie, there are $25$ anomalous edges in the patient group; see Fig.~\ref{subfig:sim,conn,struct,ds} for a pictorial illustration of the anomalous edge set \calK in the $2$-D node space.
+Fig.~\ref{subfig:sim,conn,struct,supp} presents a binary support matrix indicating the structure of the anomalous edges in the $4$-D connectome space, with the locations of the anomalous edges specified by the product set $\calC_1\times \calC_2\subset[66]\times[66]$. 
+
+%************************ Tikz fig ******************************%
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.25\linewidth}
+		 \centering
+		 \resizebox{0.94\linewidth}{!}{\input{f,tikz,sim,connStruct,hc.tex}}
+		 \caption{Control}
+		 \label{subfig:sim,conn,struct,hc}
+	\end{subfigure}
+	\hspace{-4pt}
+	\begin{subfigure}[b]{0.5\linewidth}
+		 \centering
+		 \resizebox{0.94\linewidth}{!}{\input{f,tikz,sim,connStruct,ds.tex}}
+		 \caption{Patient}
+		 \label{subfig:sim,conn,struct,ds}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.235\linewidth}
+		 \centering
+		 \raisebox{0pt}{\hspace{-8pt}\includegraphics[width=1.125\linewidth]{sim_weight_truth.pdf}}\vspace{-5pt}\\
+		 \caption{Edge support}
+		 \label{subfig:sim,conn,struct,supp}
+	\end{subfigure}
+	\vspace{-12pt}
+	\caption{
+		Schematic representations of the synthetic $4$-D functional connectome data generated for the simulation experiments (best viewed in color). 
+		(a) Node orientation representing the ``control class'' connectome, where the blue nodes indicate
+the normal nodes.
+		(b) Node orientation representing the ``patient class'' connectome, where there are $25$ \emph{anomalous edges} shared among the two \emph{anomalous node} clusters indicated in red (this subfigure is split into two side-by-side figures to improve visibility of the impacted edges).
+		(c) Binary support matrix indicating the locations of the anomalous edges in the connectome space.
+	}
+	\label{fig:sim,conn,struct}
+\end{figure}
+%****************************************************************%
+
+It is important to note that the inclusion of the clusters of anomalous nodes is motivated from the ``patchiness assumption'' of brain disorders, a view that has been born from multiple task-based and connectivity-based studies; this point will be expounded in finer detail in \ref{subsec:why,flasso}.
+In short, the ``patchiness assumption'' is the view that major psychiatric disorders manifest in the brain by impacting moderately sized spatially contiguous regions,  which is what the clusters of anomalous nodes are intended to mimic in this simulation.
+
+For training the classifiers, we sampled $100$ functional connectomes consisting of $50$ control samples and $50$ patient samples. 
+For evaluating the performance of the classifiers, we sampled $500$ additional functional connectomes consisting of $250$ control samples and $250$ patient samples.

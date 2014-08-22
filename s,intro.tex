@@ -1,0 +1,49 @@
+%!TEX root = paper.tex
+There is substantial interest in establishing neuroimaging-based biomarkers that reliably distinguish individuals with psychiatric disorders from healthy individuals. 
+Towards this end, neuroimaging affords a variety of specific modalities including structural imaging, diffusion tensor imaging (DTI) and tractography, and activation studies under conditions of cognitive challenge (\ie, task-based functional magnetic resonance imaging (fMRI)).
+In addition, resting state fMRI has emerged as a mainstream approach that offers robust, sharable, and scalable ability to comprehensively characterize patterns of connections and network architecture of the brain.
+
+Recently a number of groups have demonstrated that substantial quantities of discriminative information regarding psychiatric diseases reside in resting state functional connectomes \citep{Fox:2010,Castellanos:2013}.
+In this article, we define the functional connectomes as the cross-correlation matrix that results from parcellating the brain into hundreds of distinct regions, and computing cross-correlation matrices across time \citep{Varoquaux:2013}.
+Even with relatively coarse parcellation schemes with several hundred regions of interest (ROI), the resulting connectomes encompass hundreds of thousands of connections or more. 
+The massive size of connectomes offers new possibilities, as patterns of connectivity across the entirety of the brain are represented.  
+Nonetheless, the high dimensionality of connectomic data presents critical statistical and computational challenges.
+In particular, mass univariate strategies that perform separate statistical tests at each edge of the connectome require excessively stringent corrections for multiple comparisons. 
+Multivariate methods are promising, but these require specialized approaches in the context where the number of parameters dominate the number of observations, a setting commonly referred to as the ``large $p$ small $n$ problem,'' denoted $p\gg n$ \citep{Buhlmann:2011, West:2003}.
+
+In the $p\gg n$ regime, it is important to leverage any potential structure in the data, and sparsity is a natural assumption that arises in many applications \citep{Candes:2008,Fan:2010}.
+For example, in the context of connectomics, it is reasonable to believe that only a fraction of the functional connectome is impacted under a specific disorder, an assumption that has been supported in nearly all extant studies (see \cite{Castellanos:2013}).
+Furthermore, when sparsity is coupled with a linear classifier, the nonzero variables can be interpreted as pairs of brain regions that allow reliable discrimination between controls and patients. 
+In other words, sparse linear classifiers have the potential of revealing \emph{connectivity-based biomarkers} that characterize mechanisms of the disease process of interest \citep{Atluri:2013}. 
+
+The problem of identifying the subset of variables relevant for prediction is called feature selection \citep{Jain:2000, Guyon:2003}, which can be done in a univariate or a multivariate fashion.
+In the univariate approach, features are independentally ranked based on their statistical relationship with the target label (\eg, two sample t-test, mutual information), and only the top features are submitted to the classifier.
+While this method is commonly used \citep{Zeng:2012, Sripada:2013}, it ignores the multivariate nature of fMRI.
+On the other hand, multivariate approaches such as \emph{recursive feature elimination} \citep{Guyon:2003} can be used to capture feature interactions \citep{Craddock:2009,Dai:2012}, but these methods are computationally intensive and rely on suboptimal heuristics.
+However, a more serious shortcoming common to all the methods above is that outside of sparsity, no structural information is taken into account.
+In particular, we further know that functional connectomes reside in a structured space, defined by pairs of coordinate points in $3$-D brain space.
+Performing prediction and feature selection in a spatially informed manner could potentially allow us to draw more neuroscientifically meaningful conclusions.
+Fortunately, \emph{regularization methods} allow us to achieve this in a natural and principled way.
+
+Regularization is a classical technique to prevent overfitting \citep{Tikhonov:1963,Stein:1961}, achieved by encoding prior knowledge about the data structure into the estimation problem.
+Sparsity promoting regularization methods, such as Lasso \citep{Tibshirani:1996} and Elastic-net \citep{Zou:2005}, have the advantage of performing prediction and feature selection jointly \citep{Grosenick:2008, Yamashita:2008}; however, they also have the issue of neglecting additional structure the data may have.  Recently, there has been strong interest in the machine learning community in designing a convex regularizer that promotes \emph{structured sparsity} \citep{Mairal:2011,Chen:2012,Micchelli:2013}, which extends the standard concept of sparsity. 
+Indeed, spatially informed regularizers have been applied successfully in task-based detection, \ie, \emph{decoding}, where the goal is to localize in $3$-D space the brain regions that become active under an external stimulus \citep{Baldassarre:2012,Michel:2011,Jenatton:2012,Grosenick:2013, Gramfort:2013}. 
+Connectomic maps exhibit rich spatial structure, as each connection comes from a pair of localized regions in $3$-D space, giving each connection a localization in $6$-D space (referred to as ``connectome space'' hereafter).
+However, to the best of our knowledge, no framework currently deployed exploits this spatial structure in the functional connectome. 
+
+Based on these considerations, the main contributions of this paper are two-fold.
+First, we propose to explicitly account for the $6$-D spatial structure of the functional connectome by using either the fused Lasso \citep{Tibshirani:2005} or the GraphNet regularizer \citep{Grosenick:2013}.
+Second, we introduce a novel scalable algorithm based on the classical alternating direction method \citep{Gabay:1976,Glowinski:1975,Boyd:2011} for solving the nonsmooth, large-scale optimization problem that results from these spatially-informed regularizers.
+Variable splitting and data augmentation strategies are used to break the problem into simpler subproblems that can be solved efficiently in closed form.
+The method we propose only restricts the loss function to be convex and margin-based, which allows non-differentiable loss functions such as the hinge-loss to be used.  This is important, since using the fused Lasso or the GraphNet regularizer with the hinge-loss function leads to a structured sparse support vector machine (SVM)~\citep{Grosenick:2013,Gui-Bo-Ye:2011}, where feature selection is \emph{embedded} \citep{Guyon:2003}, \ie, feature selection is conducted jointly with classification.
+We demonstrate that the optimization algorithm we introduce can solve both fused Lasso and GraphNet regularized SVM with very little modification.
+To the best of our knowledge, this is the first application of structured sparse methods in the context of disease prediction using functional connectomes.
+Additional discussions of technical contributions are reported in Sec.~\ref{subsec:optim}.
+We perform experiments on simulated connectomic data and resting state scans from a large schizophrenia dataset to demonstrate that the proposed method identifies predictive regions that are spatially contiguous in the connectome space, offering an additional layer of interpretability that could provide new insights about various disease processes.
+
+\paragraph{Notation}
+We let lowercase and uppercase bold letters denote vectors and matrices, respectively.  
+For every positive integer $n\in\mathbb{N}$, we define an index set $[n]:=\{1,\dots,n\}$, and also let $\BI_n\in\reals^{n\times n}$ denote the identity matrix.
+Given a matrix $\BA\in\reals^{n\times p}$, we let $\BA^T$ denote its matrix transpose, and $\BA^H$ denote its Hermitian transpose.
+Given $\w,\Bv\in\reals^n$, we invoke the standard notation $\inprod{\w,\Bv}:=\sum_{i=1}^n w_iv_i$ to express the inner product in $\reals^n$.  
+We also let $\norm{\w}_p=(\sum_{i=1}^n w_i^p)^{1/p}$ denote the $\ell_p$-norm of a vector, $p\geq 1$, with the absence of subscript indicating the standard Euclidean norm, $\norm{\cdot}=\norm{\cdot}_2$.

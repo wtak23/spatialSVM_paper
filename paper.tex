@@ -1,0 +1,50 @@
+\documentclass[preprint,12p]{elsarticle} 
+\usepackage[top=1.35in, bottom=1.35in, left=1.25in, right=1.25in]{geometry}
+\input{config}
+
+\allowdisplaybreaks
+
+\journal{Neuroimage}
+
+% the default emph for this style is underline...change it to italics
+\DeclareTextFontCommand{\emph}{\itshape}
+\begin{document}
+	%==========================================%
+	% front matter
+	%==========================================%
+	\input{s,front} 
+
+	% \linenumbers	\linenumbersep 8pt\relax
+	% \renewcommand\linenumberfont{\normalfont\scriptsize\sffamily\bfseries\color{black!50}}
+
+	%==========================================%
+	% body
+	%==========================================%
+	\section{Introduction}
+	\label{intro}
+	\input{s,intro}
+
+	\section{Material and methods}
+	\label{methods}
+	\input{s,methods}
+
+	\section{Results}
+	\label{results}
+	\input{s,results}
+
+	\section{Discussion}
+	\label{sec:discussion}
+	\input{s,discussion}
+
+	\section{Conclusions}
+	\label{conclusions}
+	\input{s,conc}
+
+	%==========================================%
+	% back matter
+	%==========================================%
+	\input{s,back} 
+
+	% bibliography
+	\input{s,bib}
+\end{document}

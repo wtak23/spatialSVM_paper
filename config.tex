@@ -1,0 +1,500 @@
+%!TEX root = paper.tex
+%*****************************************************************************%
+% 						Master initialization file
+%*****************************************************************************%
+%===================================================================%
+% configurations contained in the template files from elsevier
+%===================================================================%
+\usepackage{amssymb}
+\biboptions{authoryear,sort}
+
+%*****************************************************************************%
+%		 			Packages used for the report
+%*****************************************************************************%
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage[font=footnotesize]{caption} %<- (01/20/2014) neuroimage's online compiler uses normal fontsize...force it to the default on my pc
+%\usepackage{caption} %<- (10/31/2013) this needed to be loaded for EES tex compiler to run!
+%\usepackage[font=footnotesize]{subcaption}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{amsthm} 
+\usepackage{framed} 
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{bbm} 
+
+\usepackage{rotating}
+\usepackage{ulem}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{soul} 
+\usepackage{setspace} 
+\usepackage{soul} 
+\usepackage{afterpage} 
+\usepackage{mathabx} 
+
+%====================================%
+% Bookmark stuffs
+%====================================%
+\usepackage[open,openlevel=2,numbered]{bookmark}
+\hypersetup{pdftex,  
+  breaklinks=true, 
+  colorlinks=true,
+  linkcolor=dark_blue,
+  citecolor=deep_blue,
+  pdfpagemode=UseNone, % <- (01/10/2014) to suppress bookmark when opening in adobe http://tex.stackexchange.com/questions/50814/how-to-disable-initial-view-of-pdf-bookmarks-panel
+}
+
+%====================================%
+% tikz packages
+%====================================%
+\usepackage{etex}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{automata}
+\pgfdeclarelayer{background}
+\pgfsetlayers{main}
+\usetikzlibrary{shapes}
+\usetikzlibrary{matrix} 
+
+%*****************************************************************************%
+%		 			 my custom math commands
+%*****************************************************************************%
+\newcommand{\inmath}	{\ensuremath}
+\newcommand{\xmath}[1]	{\ensuremath{#1}\xspace}
+\newcommand{\bmath}[1]	{\xmath{\bm{#1}}}	% needs \usepackage{bm}
+
+\newcommand{\argmax}[1] 	{\operatorname*{arg\,max}_{#1}}
+\newcommand{\argmin}[1] 	{\operatorname*{arg\,min}_{#1}}
+
+\newcommand{\minimize}[1] 	{\operatorname*{minimize}_{#1}}
+
+\newcommand{\reals}			{\xmath{\mathbb{R}}}
+\newcommand{\naturals}		{\xmath{\mathbb{N}}}
+
+\newcommand{\iid}		{\stackrel{iid}{\sim}}
+\newcommand{\icomplex}	{\xmath{\imath}}
+
+\newcommand{\brackp}[1]		{\xmath{\left(#1\right)}}
+\newcommand{\brackb}[1]		{\xmath{\left[#1\right]}}
+\newcommand{\brackB}[1]		{\xmath{\left\{#1\right\}}}
+\newcommand{\brackv}[1]		{\xmath{\left|#1\right|}}
+\newcommand{\brackV}[1]		{\xmath{\left\|#1\right\|}}
+
+% my favorite style of matrix
+\newcommand{\bmat}		{\begin{bmatrix}} % for matrix
+\newcommand{\emat}		{\end{bmatrix}}
+
+% some "brackets" and "braces"
+\newcommand{\braces}[1]	{\xmath{\left\{#1\right\}}}
+\newcommand{\bracesb}[1]	{\xmath{\Big\{#1\Big\}}}
+\newcommand{\bracesbb}[1]	{\xmath{\Bigg\{#1\Bigg\}}}
+
+\newcommand{\abs}[1]	{\xmath{\left| #1 \right|}}
+\newcommand{\norm}[1]	{\xmath{\left\| #1 \right\|}}
+\newcommand{\normb}[1]	{\xmath{\Big\| #1 \Big\|}}
+\newcommand{\normbb}[1]	{\xmath{\Bigg\| #1 \Bigg\|}}
+\newcommand{\floor}[1]	{\xmath{\left\lfloor #1 \right\rfloor}}
+\newcommand{\ceil}[1]	{\xmath{\left\lceil #1 \right\rceil}}
+\newcommand{\inprod}[1]	{\xmath{\mathop{\langle #1\rangle}\nolimits}}
+\newcommand{\Inprod}[1]	{\xmath{\left\langle #1\right\rangle}}
+
+\newcommand{\musec}		{\xmath{\mu\mathrm{sec}}}
+
+\newcommand{\eexp}		{\xmath{\mathinner{\mathrm{e}}}}
+\newcommand{\Expi}[1]	{\xmath{\eexp^{\icomplex #1}}}
+\newcommand{\expi}[1]	{\xmath{\exp\of{\icomplex #1}}}
+\newcommand{\Expni}[1]	{\xmath{\eexp^{-\icomplex #1}}}
+\newcommand{\expni}[1]	{\xmath{\exp\of{-\icomplex #1}}}
+\newcommand{\Expo}[1]	{\xmath{\eexp^{#1}}}
+\newcommand{\expo}[1]	{\xmath{\exp\of{#1}}}
+\newcommand{\Expn}[1]	{\xmath{\eexp^{-#1}}}
+\newcommand{\expn}[1]	{\xmath{\exp\of{-#1}}}
+\newcommand{\Exp}		{\expo}	
+\newcommand{\Cos}[1]	{\xmath{\cos\of{#1}}}
+\newcommand{\Sin}[1]	{\xmath{\sin\of{#1}}}
+
+\newcommand{\undertext}[2]	{\underbrace{#1}_{\mbox{#2}}}
+\newcommand{\dsqrt}[1]	{\xmath{\sqrt{\displaystyle #1}}}
+\newcommand{\xfrac}[2]	{\xmath{\frac{#1}{#2}}}
+\newcommand{\Half}[1][1]	{\xfrac{#1}{2}}
+\newcommand{\half}[1][1]	{\xmath{{\scriptstyle \frac{#1}{2}}}}
+\newcommand{\Frac}[2]	{\xmath{{#1}/{#2}}}
+\newcommand{\pfrac}[3][]	{\xmath{\!\paren{#1\frac{#2}{#3}}}}
+\newcommand{\pFrac}[3][]	{\xmath{\!\paren{#1\Frac{#2}{#3}}}}
+\newcommand{\dpfrac}[3][]	{\xmath{\!\paren{#1\dfrac{#2}{#3}}}}
+\def\dfrac#1#2{\xmath{\displaystyle\frac{#1}{#2}}}
+\def\implies	{\xmath{\Longrightarrow}} 
+
+\newcommand{\eref}[1]	{(\protect\ref{#1})}
+\newcommand{\fref}[2][]	{Fig.~\protect\ref{#2}#1}
+\newcommand{\conj}		{\ensuremath{^*}}
+\newcommand{\conjb}[1]	{\xmath{\brak{#1}\conj}} 
+\newcommand{\degr}		{\xmath{^{\circ}}}
+
+\newcommand{\conv}		{\ensuremath{\ast}}
+\newcommand{\cconv}		{\ensuremath{\ast\mbox{$\!\!$}\ast}}
+\newcommand{\ccconv}	{\ensuremath{\mathbin{\ast \mbox{$\!\!$} \ast \mbox{$\!\!$}\ast}}}
+
+\newcommand{\inv}		{\ensuremath{^{-\!1}}}
+\newcommand{\powten}[1]	{\ensuremath{\cdot10^{#1}}}
+
+\newcommand{\dstyle}{\displaystyle}
+
+% integrals and derivatives
+\newcommand{\negint}	{-\!\!\int\!}
+\newcommand{\intinf}	{\int_{\!-\infty}^{\infty}}
+\newcommand{\iintinf}	{\intinf\intinf}
+\newcommand{\der}[1]	{\xmath{\mathop{\mathrm{d}#1}\nolimits}}
+\newcommand{\dxy}		{\der{x}\der{y}}
+\newcommand{\dxyz}		{\der{x}\der{y}\der{z}}
+
+\newcommand{\ddt}[1][t]	{\xfrac{\der{}}{\der{#1}}}
+\newcommand{\dder}[2]	{\xfrac{\der{}^{#2}}{\der{#1}^{#2}}}
+\newcommand{\fpart}[2][]	{\xfrac{\partial #1}{\partial #2}}
+\newcommand{\ffpart}[2][]	{\xfrac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\fffpart}[2][]	{\xfrac{\partial^3 #1}{\partial #2^3}}
+\newcommand{\ffpartt}[2]	{\xfrac{\partial^2}{\partial #1 \; \partial #2}}
+
+%------Not convinced these are superior to \text-------
+\newcommand{\mathword}[3][]	{\,\inmath{\mathrm{#2}#1\of{#3}}}
+\newcommand{\wordbrace}[3][]{\,\inmath{\mathrm{#2}#1\!\braces{#3}}}
+\newcommand{\Poisson}[1]	{\wordbrace{Poisson}{#1}}
+
+\newcommand{\Normal}[1]	{{\mathcal N}\of{#1}}
+\newcommand{\diag}[1]	{\wordbrace{diag}{#1}}
+\newcommand{\var}[1]	{\wordbrace{Var}{#1}}
+\newcommand{\cov}[1]	{\wordbrace{Cov}{#1}}
+\newcommand{\sinc}		{\Ofun{\mathrm{sinc}}}
+\newcommand{\rect}[1] 	{\mathword{rect}{#1}}
+\newcommand{\sgn}[1] 	{\mathword{sgn}{#1}}
+\newcommand{\real}[1]	{\mathword{real}{#1}}
+\newcommand{\imag}[1]	{\mathword{imag}{#1}}
+%\-----------------------------------------------%
+
+
+%====================================%
+% mathematical environments
+%====================================%
+\newcommand{\ba}[1]		{\left[ \begin{array}{#1}}
+\newcommand{\ea}		{\end{array} \right]}
+\newcommand{\be}		{\begin{equation}}
+\newcommand{\ee}[1]		{\label{#1}\end{equation}}
+
+%*****************************************************************************%
+%                         set custom commands
+%*****************************************************************************%
+%*****************************************************************************%
+%                         set custom commands
+%*****************************************************************************%
+%====================================%
+% commands contained in the original template files
+%====================================%
+\newcommand{\sun}{\ensuremath{\odot}} % sun symbol is \sun
+
+%====================================%
+% abbreviations
+%====================================%
+\newcommand{\etal}		{\emph{et al\@.}\xspace}
+\newcommand{\ie}		{\emph{i.e\@.}\xspace}
+\newcommand{\eg}		{\emph{e.g\@.}\xspace}
+\newcommand{\cf}		{\emph{cf\@.}\xspace}
+\newcommand{\defacto}	{\emph{de facto}\xspace}
+\newcommand{\adhoc}		{\emph{ad hoc}\xspace}
+\newcommand{\apriori}	{\emph{a priori}\xspace}
+
+%=============================================================================%
+% Custom theorem contained in original template
+% - All of the following have the same numbering system as theorem.
+% - The definitions below were included from the template file
+%=============================================================================%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{introduction}[theorem]{Introduction}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+%====================================%
+% for figures
+%====================================%
+% these will be updated several times in the paper through \renewcommand
+\newcommand{\imwidth}  {0.23\linewidth}
+\newcommand{\imheight} {0.21\linewidth}
+\newcommand{\HSPACE}{\hspace{10pt}}
+\newcommand{\VSPACE}{\vspace{10pt}}
+\newcommand{\VSPACEE}{\vspace{10pt}}
+\newcommand{\imwidthh}  {0.23\linewidth}
+\newcommand{\imheightt}  {0.23\linewidth}
+\newcommand{\myfbox}[1]{\setlength{\fboxrule}{1.25pt}\fbox{#1}\setlength{\fboxrule}{0.25pt}}
+
+%====================================%
+% color commands
+%====================================%
+\definecolor{DarkBlue}{rgb}{0,0.2,0.65}
+\definecolor{black}{rgb}{0,0,0}
+\definecolor{myblack}{rgb}{0,0,0}
+\definecolor{myred}{rgb}{0.85,0,0}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{myblue}{rgb}{0,0,0.5}
+
+\definecolor{myorange}{rgb}{1,0.6,0.2}
+%\definecolor{myorange}{rgb}{0.9,0.3,0}
+\definecolor{myyellow}{rgb}{1,1,0}
+\definecolor{mypurple}{rgb}{.7,0,.7}
+\definecolor{mywhite}{rgb}{1,1,1}
+
+\newcommand{\dored}[1]		{{\color{myred}{#1}}}
+\newcommand{\doredbf}[1]		{{\color{red}{\textbf{#1}}}}
+\newcommand{\doblue}[1]		{{\color{blue}{#1}}}
+\newcommand{\dobluebf}[1]		{{\color{blue}{\textbf{#1}}}}
+\newcommand{\doorange}[1]		{{\color{myorange}{#1}}}
+\newcommand{\dogreen}[1]		{{\color{mygreen}{#1}}}
+\newcommand{\dogreenbf}[1]		{{\color{mygreen}{\textbf{#1}}}}
+\newcommand{\dopurple}[1]		{{\color{mypurple}{#1}}}
+\newcommand{\dowhite}[1]		{{\color{white}{#1}}}
+
+% http://tex.stackexchange.com/questions/9363/how-does-one-insert-a-backslash-or-a-tilde-into-latex
+\newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
+
+%*****************************************************************************%
+%		 			Bold fonts
+%*****************************************************************************%
+\newcommand{\Ba} {\xmath{\bmath{a}}}
+\newcommand{\Bb} {\xmath{\bmath{b}}}
+\newcommand{\Bc} {\xmath{\bmath{c}}}
+\newcommand{\Bd} {\xmath{\bmath{d}}}
+\newcommand{\Be} {\xmath{\bmath{e}}}
+\newcommand{\Bf} {\xmath{\bmath{f}}}
+\newcommand{\Bg} {\xmath{\bmath{g}}}
+\newcommand{\Bh} {\xmath{\bmath{h}}}
+\newcommand{\Bi} {\xmath{\bmath{i}}}
+\newcommand{\Bj} {\xmath{\bmath{j}}}
+\newcommand{\Bk} {\xmath{\bmath{k}}}
+\newcommand{\Bl} {\xmath{\bmath{l}}}
+\newcommand{\Bm} {\xmath{\bmath{m}}}
+\newcommand{\Bn} {\xmath{\bmath{n}}}
+\newcommand{\Bo} {\xmath{\bmath{o}}}
+\newcommand{\Bp} {\xmath{\bmath{p}}}
+\newcommand{\Bq} {\xmath{\bmath{q}}}
+\newcommand{\Br} {\xmath{\bmath{r}}}
+\newcommand{\Bs} {\xmath{\bmath{s}}}
+\newcommand{\Bt} {\xmath{\bmath{t}}}
+\newcommand{\Bu} {\xmath{\bmath{u}}}
+\newcommand{\Bv} {\xmath{\bmath{v}}}
+\newcommand{\Bw} {\xmath{\bmath{w}}}
+\newcommand{\Bx} {\xmath{\bmath{x}}}
+\newcommand{\By} {\xmath{\bmath{y}}}
+\newcommand{\Bz} {\xmath{\bmath{z}}}
+
+\newcommand{\BA} {\xmath{\bmath{A}}}
+\newcommand{\BB} {\xmath{\bmath{B}}}
+\newcommand{\BC} {\xmath{\bmath{C}}}
+\newcommand{\BD} {\xmath{\bmath{D}}}
+\newcommand{\BE} {\xmath{\bmath{E}}}
+\newcommand{\BF} {\xmath{\bmath{F}}}
+\newcommand{\BG} {\xmath{\bmath{G}}}
+\newcommand{\BH} {\xmath{\bmath{H}}}
+\newcommand{\BI} {\xmath{\bmath{I}}}
+\newcommand{\BJ} {\xmath{\bmath{J}}}
+\newcommand{\BK} {\xmath{\bmath{K}}}
+\newcommand{\BL} {\xmath{\bmath{L}}}
+\newcommand{\BM} {\xmath{\bmath{M}}}
+\newcommand{\BN} {\xmath{\bmath{N}}}
+\newcommand{\BO} {\xmath{\bmath{O}}}
+\newcommand{\BP} {\xmath{\bmath{P}}}
+\newcommand{\BQ} {\xmath{\bmath{Q}}}
+\newcommand{\BR} {\xmath{\bmath{R}}}
+\newcommand{\BS} {\xmath{\bmath{S}}}
+\newcommand{\BT} {\xmath{\bmath{T}}}
+\newcommand{\BU} {\xmath{\bmath{U}}}
+\newcommand{\BV} {\xmath{\bmath{V}}}
+\newcommand{\BW} {\xmath{\bmath{W}}}
+\newcommand{\BX} {\xmath{\bmath{X}}}
+\newcommand{\BY} {\xmath{\bmath{Y}}}
+\newcommand{\BZ} {\xmath{\bmath{Z}}}
+
+\newcommand{\Balpha}		{\xmath{\bmath{\alpha}}}
+\newcommand{\BAlpha}		{\xmath{\bmath{\Alpha}}}
+\newcommand{\Bbeta}			{\xmath{\bmath{\beta}}}
+\newcommand{\BBeta}			{\xmath{\bmath{\Beta}}}
+\newcommand{\Bgamma}		{\xmath{\bmath{\gamma}}}
+\newcommand{\BGamma}		{\xmath{\bmath{\Gamma}}}
+\newcommand{\Bdelta}		{\xmath{\bmath{\delta}}}
+\newcommand{\BDelta}		{\xmath{\bmath{\Delta}}}
+\newcommand{\Bepsilon}		{\xmath{\bmath{\epsilon}}}
+\newcommand{\BEpsilon}		{\xmath{\bmath{\Epsilon}}}
+\newcommand{\Bvarepsilon}		{\xmath{\bmath{\varepsilon}}}
+\newcommand{\Bzeta}			{\xmath{\bmath{\zeta}}}
+\newcommand{\BZeta}			{\xmath{\bmath{\Zeta}}}
+%	\newcommand{\BBeta}			{\xmath{\bmath{\eta}}} % \Beta already defined...
+\newcommand{\BEta}			{\xmath{\bmath{\Eta}}}
+\newcommand{\Btheta}		{\xmath{\bmath{\theta}}}
+\newcommand{\BTheta}		{\xmath{\bmath{\Theta}}}
+\newcommand{\Biota}			{\xmath{\bmath{\iota}}}
+\newcommand{\BIota}			{\xmath{\bmath{\Iota}}}
+\newcommand{\Bkappa}		{\xmath{\bmath{\kappa}}}
+\newcommand{\BKappa}		{\xmath{\bmath{\Kappa}}}
+\newcommand{\Blambda}		{\xmath{\bmath{\lambda}}}
+\newcommand{\BLambda}		{\xmath{\bmath{\Lambda}}}
+\newcommand{\Bmu}			{\xmath{\bmath{\mu}}}
+\newcommand{\BMu}			{\xmath{\bmath{\Mu}}}
+\newcommand{\Bnu}			{\xmath{\bmath{\nu}}}
+\newcommand{\BNu}			{\xmath{\bmath{\Nu}}}
+\newcommand{\Bxi}			{\xmath{\bmath{\xi}}}
+\newcommand{\BXi}			{\xmath{\bmath{\Xi}}}
+\newcommand{\Bpi}			{\xmath{\bmath{\pi}}}
+\newcommand{\BPi}			{\xmath{\bmath{\Pi}}}
+\newcommand{\Brho}			{\xmath{\bmath{\rho}}}
+\newcommand{\BRho}			{\xmath{\bmath{\Rho}}}
+\newcommand{\Bsigma}		{\xmath{\bmath{\sigma}}}
+\newcommand{\BSigma}		{\xmath{\bmath{\Sigma}}}
+\newcommand{\Btau}			{\xmath{\bmath{\tau}}}
+\newcommand{\BTau}			{\xmath{\bmath{\Tau}}}
+\newcommand{\Bupsilon}		{\xmath{\bmath{\upsilon}}}
+\newcommand{\BUpsilon}		{\xmath{\bmath{\Upsilon}}}
+\newcommand{\Bphi}			{\xmath{\bmath{\phi}}}
+\newcommand{\BPhi}			{\xmath{\bmath{\Phi}}}
+\newcommand{\Bchi}			{\xmath{\bmath{\chi}}}
+\newcommand{\BChi}			{\xmath{\bmath{\Chi}}}
+\newcommand{\Bpsi}			{\xmath{\bmath{\psi}}}
+\newcommand{\BPsi}			{\xmath{\bmath{\Psi}}}
+\newcommand{\Bomega}		{\xmath{\bmath{\omega}}}
+\newcommand{\BOmega}		{\xmath{\bmath{\Omega}}}
+
+%*****************************************************************************%
+%		 			 my "lazy" commands
+%*****************************************************************************%
+\newcommand{\tbold}[1]{\textbf{#1}}
+\newcommand{\tdef}[1]		{{\color{mygreen}{\textbf{#1}}}}
+
+\newcommand{\w}			{{\bmath{w}}\xspace}
+\newcommand{\wmin}			{{\bmath{w^*}}\xspace}
+\renewcommand{\b}			{{\bmath{b}}\xspace}
+\newcommand{\e}			{{\bmath{e}}\xspace}
+\newcommand{\x}			{{\bmath{x}}\xspace}
+\newcommand{\xtil}			{{\bmath{\tilde{x}}}\xspace}
+\renewcommand{\r}			{{\bmath{r}}\xspace}
+\newcommand{\s}			{{\bmath{s}}\xspace}
+\newcommand{\q}			{{\bmath{q}}\xspace}
+\newcommand{\wtil}			{{\bmath{\widetilde{w}}}\xspace}
+\renewcommand{\u}			{{\bmath{u}}\xspace}
+
+% follow the convention that a -> 1, b -> 2, c -> 3...
+\newcommand{\va}			{{\bmath{v_1}}\xspace}
+\newcommand{\vb}			{{\bmath{v_2}}\xspace}
+\newcommand{\vc}			{{\bmath{v_3}}\xspace}
+\newcommand{\vd}			{{\bmath{v_4}}\xspace}
+\newcommand{\ua}			{{\bmath{u_1}}\xspace}
+\newcommand{\ub}			{{\bmath{u_2}}\xspace}
+\newcommand{\uc}			{{\bmath{u_3}}\xspace}
+\newcommand{\ud}			{{\bmath{u_4}}\xspace}
+
+\newcommand{\AL}			{{\bmath{L_\rho}}\xspace}
+\newcommand{\Ctil}			{{\bmath{\widetilde{C}}}\xspace}
+
+\newcommand{\A}			{{\bmath{A}}\xspace}
+\newcommand{\B}			{{\bmath{B}}\xspace}
+\newcommand{\C}			{{\bmath{C}}\xspace}
+\newcommand{\F}			{{\bmath{F}}\xspace}
+\newcommand{\Q}			{{\bmath{Q}}\xspace}
+\newcommand{\I}			{{\bmath{I}}\xspace}
+\newcommand{\U}			{{\bmath{U}}\xspace}
+\newcommand{\X}			{{\bmath{X}}\xspace}
+\newcommand{\Y}			{{\bmath{Y}}\xspace}
+\newcommand{\YXw}			{{\bmath{YXw}}\xspace}
+\newcommand{\Xw}			{{\bmath{Xw}}\xspace}
+\newcommand{\bzero}			{{\bmath{0}}\xspace}
+
+% bar'ed notations for the canonical admm definition
+\newcommand{\Abar}			{{\bmath{\bar{A}}}\xspace}
+\newcommand{\Bbar}			{{\bmath{\bar{B}}}\xspace}
+\newcommand{\xbar}			{{\bmath{\bar{x}}}\xspace}
+\newcommand{\ybar}			{{\bmath{\bar{y}}}\xspace}
+\newcommand{\bbar}			{{\bmath{\bar{b}}}\xspace}
+\newcommand{\fbar}			{{\bmath{\bar{f}}}\xspace}
+\newcommand{\gbar}			{{\bmath{\bar{g}}}\xspace}
+\newcommand{\ubar}			{{\bmath{\bar{u}}}\xspace}
+\newcommand{\Fbar}			{{\bmath{\bar{F}}}\xspace}
+\newcommand{\Gbar}			{{\bmath{\bar{G}}}\xspace}
+
+\newcommand{\prox}		{\xmath{\mathrm{Prox}}} % meh, good enough
+\newcommand{\soft}		{\xmath{\mathrm{Soft}}}
+
+% loss functions
+\newcommand{\loss}		{\xmath{\ell}}
+\newcommand{\Loss}		{\xmath{\mathcal{L}}}
+
+% regularizer
+\newcommand{\Reg}{\xmath{\mathcal{R}}}
+
+\newcommand{\kron}{\xmath{\bigotimes}}
+
+% ell related stufs
+\newcommand{\elltwo} {\xmath{\ell_2}}
+\newcommand{\ellone} {\xmath{\ell_1}}
+\newcommand{\ellzero}{\xmath{\ell_0}}
+\newcommand{\ellinf} {\xmath{\ell_\infty}}
+
+\newcommand{\normsq}[1]{\norm{#1}^2}
+
+\newcommand{\sign}[1] {\text{sign}\left(#1\right)} 
+
+\newcommand{\iter}{^{(t)}}
+\newcommand{\iterp}{^{(t+1)}}
+
+% for canoncial admm primal variable size
+\newcommand{\pbar}{{\xmath{\bar{p}}}}
+\newcommand{\qbar}{{\xmath{\bar{q}}}}
+
+
+\newcommand{\ptil}{{\xmath{\tilde{p}}}}
+\newcommand{\dtil}{{\xmath{\tilde{d}}}}
+
+\newcommand{\xstar} {\xmath{\x^*}}
+\newcommand{\pstar} {{\xmath{p^*}}}
+
+% ADMM termination criteria 
+\newcommand{\varepsADMM}{\varepsilon}
+
+%************* line number equation fix *************************
+\usepackage{lineno}
+% http://tex.stackexchange.com/questions/43648/why-doesnt-lineno-number-a-paragraph-when-it-is-followed-by-an-align-equation?rq=1
+% http://phaseportrait.blogspot.com/2007/08/lineno-and-amsmath-compatibility.html
+\newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+  \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+  \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+  \renewenvironment{#1}%
+     {\linenomath\csname old#1\endcsname}%
+     {\csname oldend#1\endcsname\endlinenomath}}% 
+\newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+  \patchAmsMathEnvironmentForLineno{#1}%
+  \patchAmsMathEnvironmentForLineno{#1*}}%
+\AtBeginDocument{%
+\patchBothAmsMathEnvironmentsForLineno{equation}%
+\patchBothAmsMathEnvironmentsForLineno{align}%
+\patchBothAmsMathEnvironmentsForLineno{flalign}%
+\patchBothAmsMathEnvironmentsForLineno{alignat}%
+\patchBothAmsMathEnvironmentsForLineno{gather}%
+\patchBothAmsMathEnvironmentsForLineno{multline}%
+}
+%************************************************************
+

@@ -1,0 +1,58 @@
+%!TEX root = paper.tex
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}          ==>>  [#]
+%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
+%%   \citet{key}         ==>>  Author [#]
+
+%% References with bibTeX database:
+%\section*{References} %<- (10/31/2013) Neuroimage compiler creates an extra heading...so remove
+%=============================================================================%
+% Reference guidelines
+%  - http://www.elsevier.com/journals/neuroimage/1053-8119/guide-for-authors#68000
+%
+% Journal abbreviation policy: lookup table for abbreviation style
+%  - http://www.issn.org/2-22661-LTWA-online.php
+%-----------------------------------------------------------------------------%
+%	Reference style 
+%	Name and year style in the text 
+%	Text: All citations in the text should refer to: 
+%	1. Single author: the author's name (without initials, unless there is ambiguity) and the year of publication; 
+%	2. Two authors: both authors' names and the year of publication; 
+%	3. Three or more authors: first author's name followed by 'et al.' and the year of publication. Citations may be made directly (or parenthetically). Groups of references should be listed first alphabetically, then chronologically. 
+%	Examples: 'as demonstrated (Allan, 2000a, 2000b, 1999; Allan and Jones, 1999). Kramer et al. (2010) have recently shown ...' 
+%	List: References should be arranged first alphabetically and then further sorted chronologically if necessary. More than one reference from the same author(s) in the same year must be identified by the letters 'a', 'b', 'c', etc., placed after the year of publication. Note that any (consistent) reference style and format may be used: the Publisher will ensure that the correct style for this journal will be introduced for the proof stages, the final print version and the PDF files for electronic distribution.
+%=============================================================================%
+\bibliographystyle{model1b-num-names}
+
+%\bibliographystyle{./ref_papers/model1a-num-names}
+%\bibliographystyle{./ref_papers/model1c-num-names}
+%\bibliographystyle{./ref_papers/model1-num-names}
+%\bibliographystyle{./ref_papers/model2-names}
+%\bibliographystyle{./ref_papers/model3a-num-names} % <- provides numbered list
+%\bibliographystyle{./ref_papers/model3-num-names}
+%\bibliographystyle{./ref_papers/model4-names}
+%\bibliographystyle{./ref_papers/model5-names}
+%\bibliographystyle{./ref_papers/model6-num-names} % <- provides numbered list
+%\bibliographystyle{./ref_papers/elsarticle-harv}
+%\bibliographystyle{./ref_papers/elsarticle-num}
+%\bibliographystyle{./ref_paperselsarticle-num-names}
+\bibliography{mybib}
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use model1a-num-names.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
